@@ -16,12 +16,9 @@ pipeline:
         description: ""
         type: CI
         spec:
-#          cloneCodebase: true
-#          caching:
-#            enabled: true
           platform:
             os: Linux
-            arch: AMD64
+            arch: Amd64
           runtime:
             type: Docker
             spec: {}
@@ -33,5 +30,4 @@ pipeline:
                   identifier: Run_1
                   spec:
                     shell: Sh
-                    command: |-
-                      echo "hello world"
+                    command: echo "hello world"
