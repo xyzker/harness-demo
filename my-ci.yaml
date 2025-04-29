@@ -5,6 +5,10 @@ pipeline:
   orgIdentifier: default
   tags: {}
   properties:
+    ci:
+      codebase:
+        repoName: account.harness-filestore
+        build: <+input>
   stages:
     - stage:
         name: hello
