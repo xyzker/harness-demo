@@ -16,9 +16,9 @@ pipeline:
         description: ""
         type: CI
         spec:
-          cloneCodebase: true
-          caching:
-            enabled: true
+#          cloneCodebase: true
+#          caching:
+#            enabled: true
           platform:
             os: Linux
             arch: AMD64
@@ -34,5 +34,4 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
-                      ./gradlew clean bootJar
-                      java -jar build/libs/hello-world.jar
+                      echo "hello world"
