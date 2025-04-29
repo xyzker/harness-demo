@@ -5,14 +5,10 @@ pipeline:
   orgIdentifier: default
   tags: {}
   properties:
-    ci:
-      codebase:
-        repoName: account.harness-filestore
-        build: <+input>
   stages:
     - stage:
-        name: checkout
-        identifier: checkout
+        name: hello
+        identifier: hello
         description: ""
         type: CI
         spec:
