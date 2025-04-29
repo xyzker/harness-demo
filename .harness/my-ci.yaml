@@ -4,11 +4,6 @@ pipeline:
   projectIdentifier: default_project
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-        repoName: account.harness-filestore
-        build: <+input>
   stages:
     - stage:
         name: checkout
@@ -16,9 +11,10 @@ pipeline:
         description: ""
         type: CI
         spec:
-          cloneCodebase: true
+          cloneCodebase: false
           caching:
             enabled: true
+            paths: []
           platform:
             os: Linux
             arch: Amd64
@@ -36,3 +32,5 @@ pipeline:
                     command: |-
                       ./gradlew clean bootJar
                       java -jar build/libs/hello-world.jar
+          buildIntelligence:
+            enabled: false
