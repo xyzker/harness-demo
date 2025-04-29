@@ -1,0 +1,38 @@
+pipeline:
+  name: my-ci
+  identifier: myci
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        repoName: account.harness-filestore
+        build: <+input>
+  stages:
+    - stage:
+        name: checkout
+        identifier: checkout
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+          platform:
+            os: MacOS
+            arch: Arm64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: |-
+                      ./gradlew clean bootJar
+                      java -jar build/libs/hello-world.jar
