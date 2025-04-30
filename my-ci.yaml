@@ -16,12 +16,6 @@ pipeline:
         description: ""
         type: CI
         spec:
-          platform:
-            os: Windows
-            arch: Amd64
-          runtime:
-            type: Docker
-            spec: {}
           execution:
             steps:
               - step:
@@ -29,6 +23,8 @@ pipeline:
                   name: Run_1
                   identifier: Run_1
                   spec:
+                    connectorRef: account.mywindowsk8s
+                    image: alpine:3
                     shell: Sh
                     command: echo "hello world"
           cloneCodebase: true
@@ -37,3 +33,13 @@ pipeline:
             paths: []
           buildIntelligence:
             enabled: false
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: account.mywindowsk8s
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+        delegateSelectors:
+          - kubernetes-delegate
