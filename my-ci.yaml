@@ -40,6 +40,6 @@ pipeline:
               namespace: harness-delegate-ng
               automountServiceAccountToken: true
               nodeSelector: {}
-              os: Windows
+              os: Linux
         delegateSelectors:
           - kubernetes-delegate
