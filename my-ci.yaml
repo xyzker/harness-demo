@@ -7,8 +7,10 @@ pipeline:
   properties:
     ci:
       codebase:
-        repoName: account.harness-filestore
+        connectorRef: xyzker
+        repoName: harness-demo
         build: <+input>
+        sparseCheckout: []
   stages:
     - stage:
         name: hello
