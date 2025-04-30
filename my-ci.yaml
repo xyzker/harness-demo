@@ -4,6 +4,11 @@ pipeline:
   projectIdentifier: default_project
   orgIdentifier: default
   tags: {}
+  properties:
+    ci:
+      codebase:
+        repoName: account.harness-filestore
+        build: <+input>
   stages:
     - stage:
         name: hello
@@ -26,3 +31,9 @@ pipeline:
                   spec:
                     shell: Sh
                     command: echo "hello world"
+          cloneCodebase: true
+          caching:
+            enabled: false
+            paths: []
+          buildIntelligence:
+            enabled: false
