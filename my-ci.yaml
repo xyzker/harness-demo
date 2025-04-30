@@ -24,7 +24,7 @@ pipeline:
                   identifier: Run_1
                   spec:
                     connectorRef: account.mywindowsk8s
-                    image: alpine:3
+                    image: alpine:3.21.3
                     shell: Sh
                     command: echo "hello world"
           cloneCodebase: true
