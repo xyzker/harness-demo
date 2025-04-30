@@ -4,11 +4,6 @@ pipeline:
   projectIdentifier: default_project
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-        repoName: account.harness-filestore
-        build: <+input>
   stages:
     - stage:
         name: hello
@@ -17,7 +12,7 @@ pipeline:
         type: CI
         spec:
           platform:
-            os: Linux
+            os: Windows
             arch: Amd64
           runtime:
             type: Docker
