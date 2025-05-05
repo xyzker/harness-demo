@@ -24,16 +24,15 @@ pipeline:
                   identifier: Run_1
                   spec:
                     connectorRef: account.mywindowsk8s
-                    image: curlimages/curl:8.13.0
-                    shell: Bash
+                    image: alpine/curl:8.12.1
+                    shell: Sh
                     source:
                       type: Inline
                       spec:
                         script: |
-                          #!/bin/bash
+                          #!/bin/sh
                           set -ex
                           
-                          echo "====================START OUTPUT===================="
                           echo "Retrieving input details for execution ID: ${cdExecutionId}"
 
                           API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}/inputsetV2?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&resolveExpressions=false&resolveExpressionsType=RESOLVE_ALL_EXPRESSIONS" \
