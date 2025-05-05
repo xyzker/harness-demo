@@ -11,6 +11,11 @@ pipeline:
         repoName: harness-demo
         build: <+input>
         sparseCheckout: []
+  variables:
+    - name: cdExecutionId
+      type: String
+      default:
+      value: <+input>
   stages:
     - stage:
         name: hello
@@ -27,8 +32,26 @@ pipeline:
                   spec:
                     connectorRef: account.mywindowsk8s
                     image: alpine:3.21.3
-                    shell: Sh
-                    command: echo "hello world"
+                    shell: Bash
+                    source:
+                      type: Inline
+                      spec:
+                        script: |
+                          #!/bin/bash
+                          set -e
+                          
+                          echo "Retrieving input details for execution ID: ${cdExecutionId}"
+                          
+                          API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}/inputsetV2?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&resolveExpressions=false&resolveExpressionsType=RESOLVE_ALL_EXPRESSIONS" \
+                          -H 'x-api-key: <+secrets.getValue("harnessnextgenapikey")>')
+                          
+                          echo "API Response received: $API_RESPONSE"
+                          
+                          # Second API call to get execution details
+                          EXECUTION_API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project" \
+                          -H 'x-api-key: <+secrets.getValue("harnessnextgenapikey")>')
+                          
+                          echo "Execution API Response received: $EXECUTION_API_RESPONSE"
           cloneCodebase: true
           caching:
             enabled: false
