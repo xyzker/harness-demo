@@ -7,7 +7,7 @@ pipeline:
   variables:
     - name: cdExecutionId
       type: String
-      default:
+      default: ""
       value: <+input>
   stages:
     - stage:
@@ -32,18 +32,18 @@ pipeline:
                         script: |
                           #!/bin/bash
                           set -e
-                          
+
                           echo "Retrieving input details for execution ID: ${cdExecutionId}"
-                          
+
                           API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}/inputsetV2?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&resolveExpressions=false&resolveExpressionsType=RESOLVE_ALL_EXPRESSIONS" \
                           -H 'x-api-key: <+secrets.getValue("harnessnextgenapikey")>')
-                          
+
                           echo "API Response received: $API_RESPONSE"
-                          
+
                           # Second API call to get execution details
                           EXECUTION_API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project" \
                           -H 'x-api-key: <+secrets.getValue("harnessnextgenapikey")>')
-                          
+
                           echo "Execution API Response received: $EXECUTION_API_RESPONSE"
           cloneCodebase: false
           caching:
