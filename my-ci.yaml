@@ -4,13 +4,6 @@ pipeline:
   projectIdentifier: default_project
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-        connectorRef: xyzker
-        repoName: harness-demo
-        build: <+input>
-        sparseCheckout: []
   variables:
     - name: cdExecutionId
       type: String
@@ -52,7 +45,7 @@ pipeline:
                           -H 'x-api-key: <+secrets.getValue("harnessnextgenapikey")>')
                           
                           echo "Execution API Response received: $EXECUTION_API_RESPONSE"
-          cloneCodebase: true
+          cloneCodebase: false
           caching:
             enabled: false
             paths: []
