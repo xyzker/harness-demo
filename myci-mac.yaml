@@ -21,7 +21,6 @@ pipeline:
                   name: Run_1
                   identifier: Run_1
                   spec:
-                    connectorRef: account.mywindowsk8s
                     image: alpine/curl:8.12.1
                     shell: Sh
                     source:
