@@ -50,13 +50,11 @@ pipeline:
             paths: []
           buildIntelligence:
             enabled: false
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.mywindowsk8s
-              namespace: harness-delegate-ng
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
         delegateSelectors:
           - kubernetes-delegate
