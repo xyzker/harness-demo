@@ -15,6 +15,10 @@ pipeline:
         identifier: shell
         description: ""
         type: Custom
+        variables: # Add this section to expose variables to the stage
+          - name: cdExecutionId
+            type: String
+            value: <+pipeline.variables.cdExecutionId>
         spec:
           environment:
             environmentRef: dev
