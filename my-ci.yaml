@@ -56,7 +56,10 @@ pipeline:
                           -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>')
 
                           echo "Execution API Response received: $EXECUTION_API_RESPONSE"
-                    environmentVariables: []
+                    environmentVariables:
+                      - name: cdExecutionId
+                        type: String
+                        value: <+stage.variables.cdExecutionId>  # Add this mapping
                     outputVariables: []
                   timeout: 10m
                   when:
