@@ -48,15 +48,11 @@ pipeline:
             paths: []
           buildIntelligence:
             enabled: false
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: account.mywindowsk8s
-              namespace: harness-delegate-ng
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
-        delegateSelectors:
-          - kubernetes-delegate
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
   identifier: myci_mac
   name: my-ci - mac
