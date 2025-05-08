@@ -30,7 +30,7 @@ pipeline:
                           connectorRef: account.harnessImage
                           image: alpine:3.21.3
                           command: |
-                            #
+                            echo "hello"
                           shell: Sh
                           infrastructure:
                             type: KubernetesDirect
