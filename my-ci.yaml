@@ -25,12 +25,7 @@ pipeline:
                   spec:
                     connectorRef: account.harnessImage
                     image: alpine:3.21.3
-                    entrypoint:
-                      - /bin/sh
-                      - c
-                    command: |-
-                      set -e
-                      echo "hello"
+                    command: echo "hello"
                     shell: Sh
                     infrastructure:
                       type: KubernetesDirect
