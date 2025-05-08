@@ -24,7 +24,7 @@ pipeline:
                   identifier: Container_1
                   spec:
                     connectorRef: account.harnessImage
-                    image: alpine:3.21.3
+                    image: alpine:3.21
                     command: echo "hello"
                     shell: Sh
                     infrastructure:
