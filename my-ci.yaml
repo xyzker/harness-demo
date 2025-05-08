@@ -30,6 +30,7 @@ pipeline:
                           connectorRef: account.harnessImage
                           image: alpine:3.21.3
                           command: |-
+                            #!/bin/sh
                             set -e
                             echo "hello"
                             echo "hello" > /shared/hello.txt
