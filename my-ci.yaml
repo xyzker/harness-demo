@@ -18,46 +18,92 @@ pipeline:
         spec:
           execution:
             steps:
-              - step:
-                  type: Container
-                  name: Container_1
-                  identifier: Container_1
-                  spec:
-                    connectorRef: account.harnessImage
-                    image: alpine:3.21
-                    command: echo "hello"
-                    shell: Sh
-                    infrastructure:
-                      type: KubernetesDirect
-                      spec:
-                        connectorRef: mywindows
-                        namespace: harness-delegate-ng
-                        resources:
-                          limits:
-                            cpu: "0.5"
-                            memory: 500Mi
-                        annotations: {}
-                        labels: {}
-                        containerSecurityContext:
-                          capabilities:
-                            drop: []
-                            add: []
-                        nodeSelector: {}
-                    reports:
-                      type: JUnit
-                      spec:
-                        paths: []
-                    outputVariables: []
-                    envVariables: {}
-                    imagePullPolicy: IfNotPresent
-                  timeout: 1h
+              - stepGroup:
+                  name: Container Step Group
+                  identifier: Container_Step_Group
+                  steps:
+                    - step:
+                        type: Container
+                        name: Container_1
+                        identifier: Container_1
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: alpine:3.21.3
+                          command: |-
+                            set -e
+                            echo "hello"
+                            echo "hello" > /shared/hello.txt
+                            cat /shared/hello.txt
+                          shell: Sh
+                          infrastructure:
+                            type: KubernetesDirect
+                            spec:
+                              connectorRef: mywindows
+                              namespace: harness-delegate-ng
+                              resources:
+                                limits:
+                                  cpu: "1"
+                                  memory: 1G
+                              annotations: {}
+                              labels: {}
+                              containerSecurityContext:
+                                capabilities:
+                                  drop: []
+                                  add: []
+                              nodeSelector: {}
+                              volumeMounts:
+                                - name: shared-vol
+                                  mountPath: /shared
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths: []
+                          outputVariables: []
+                          envVariables: {}
+                        timeout: 1h
+                    - step:
+                        type: Container
+                        name: Container_2
+                        identifier: Container_2
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: alpine:3.21
+                          command: |-
+                            #!/bin/sh
+                            set -e
+                            cat /shared/hello.txt
+                          shell: Sh
+                          infrastructure:
+                            type: KubernetesDirect
+                            spec:
+                              connectorRef: mywindows
+                              namespace: harness-delegate-ng
+                              resources:
+                                limits:
+                                  cpu: "1"
+                                  memory: 1G
+                              annotations: {}
+                              labels: {}
+                              containerSecurityContext:
+                                capabilities:
+                                  drop: []
+                                  add: []
+                              nodeSelector: {}
+                              volumeMounts:
+                                - name: shared-vol
+                                  mountPath: /shared
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths: []
+                          outputVariables: []
+                          envVariables: {}
+                        timeout: 1h
+                  volumeMounts:
+                    - name: shared-vol
+                      mountPath: /shared
             rollbackSteps: []
           serviceDependencies: []
-          environment:
-            environmentRef: dev
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: mykubernetes
         tags: {}
     - stage:
         name: shell
