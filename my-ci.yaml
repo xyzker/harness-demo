@@ -92,9 +92,11 @@ pipeline:
                                   drop: []
                                   add: []
                               nodeSelector: {}
-                              volumeMounts:
-                                - name: shared-vol
-                                  mountPath: /shared
+                              volumes:
+                                - mountPath: /shared
+                                  type: EmptyDir
+                                  spec:
+                                    medium: ""
                           reports:
                             type: JUnit
                             spec:
