@@ -41,3 +41,12 @@ pipeline:
                       mkdir -p /harness/.docker
                       echo "hello" > /harness/.docker/hello.txt
                       cat /harness/.docker/hello.txt
+              - step:
+                  type: Run
+                  name: Run_2
+                  identifier: Run_2
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: alpine:3.21
+                    shell: Sh
+                    command: cat /harness/.docker/hello.txt
