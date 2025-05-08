@@ -31,8 +31,9 @@ pipeline:
                           image: alpine:3.21.3
                           command: |-
                             set -e
-                            echo "hello" > /shared/hello.txt
-                            cat /shared/hello.txt
+                            echo "hello"
+                            #echo "hello" > /shared/hello.txt
+                            #cat /shared/hello.txt
                           shell: Sh
                           infrastructure:
                             type: KubernetesDirect
