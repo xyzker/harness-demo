@@ -58,7 +58,7 @@ pipeline:
                               paths: []
                           outputVariables: []
                           envVariables: {}
-                        timeout: 1m
+                        timeout: 1h
             rollbackSteps: []
           serviceDependencies: []
         tags: {}
