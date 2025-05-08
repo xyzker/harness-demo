@@ -51,9 +51,11 @@ pipeline:
                                   drop: []
                                   add: []
                               nodeSelector: {}
-                              volumeMounts:
-                                - name: shared-vol
-                                  mountPath: /shared
+                              volumes:
+                                - mountPath: /shared
+                                  type: EmptyDir
+                                  spec:
+                                    medium: ""
                           reports:
                             type: JUnit
                             spec:
@@ -99,9 +101,6 @@ pipeline:
                           outputVariables: []
                           envVariables: {}
                         timeout: 1h
-                  volumeMounts:
-                    - name: shared-vol
-                      mountPath: /shared
             rollbackSteps: []
           serviceDependencies: []
         tags: {}
