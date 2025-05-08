@@ -29,7 +29,7 @@ pipeline:
                         spec:
                           connectorRef: account.harnessImage
                           image: alpine:3.21.3
-                          command: |
+                          command: |-
                             set -e
                             mkdir -p /shared
                             echo "hello" > /shared/hello.txt
