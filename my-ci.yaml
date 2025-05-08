@@ -30,6 +30,7 @@ pipeline:
                           connectorRef: account.harnessImage
                           image: alpine:3.21.3
                           command: |
+                            #!/bin/sh
                             echo "hello"
                           shell: Sh
                           infrastructure:
@@ -95,6 +96,11 @@ pipeline:
                         timeout: 1h
             rollbackSteps: []
           serviceDependencies: []
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
         tags: {}
     - stage:
         name: shell
