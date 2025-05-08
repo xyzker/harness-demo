@@ -49,6 +49,7 @@ pipeline:
                         paths: []
                     outputVariables: []
                     envVariables: {}
+                    imagePullPolicy: IfNotPresent
                   timeout: 1h
             rollbackSteps: []
           serviceDependencies: []
