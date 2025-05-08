@@ -28,7 +28,7 @@ pipeline:
                         identifier: Container_1
                         spec:
                           connectorRef: account.harnessImage
-                          image: alpha:3.21.3
+                          image: alpine:3.21.3
                           command: |
                             mkdir -p /shared
                             echo "hello" > /shared/hello.txt
