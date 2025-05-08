@@ -11,11 +11,63 @@ pipeline:
       value: <+input>
   stages:
     - stage:
+        name: Container Run
+        identifier: Container_Run
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - stepGroup:
+                  name: Container Step Group
+                  identifier: Container_Step_Group
+                  steps:
+                    - step:
+                        type: Container
+                        name: Container_1
+                        identifier: Container_1
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: alpha:3.21.3
+                          command: |
+                            mkdir -p /shared
+                            echo "hello" > /shared/hello.txt
+                          shell: Sh
+                          infrastructure:
+                            type: KubernetesDirect
+                            spec:
+                              connectorRef: mywindows
+                              namespace: harness-delegate-ng
+                              resources:
+                                limits:
+                                  cpu: "0.5"
+                                  memory: 500Mi
+                              annotations: {}
+                              labels: {}
+                              containerSecurityContext:
+                                capabilities:
+                                  drop: []
+                                  add: []
+                              nodeSelector: {}
+                              volumeMounts:
+                                - name: shared-vol
+                                  mountPath: /shared
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths: []
+                          outputVariables: []
+                          envVariables: {}
+                        timeout: 1m
+            rollbackSteps: []
+          serviceDependencies: []
+        tags: {}
+    - stage:
         name: shell
         identifier: shell
         description: ""
         type: Custom
-        variables: # Add this section to expose variables to the stage
+        variables:
           - name: cdExecutionId
             type: String
             value: <+pipeline.variables.cdExecutionId>
@@ -59,7 +111,7 @@ pipeline:
                     environmentVariables:
                       - name: cdExecutionId
                         type: String
-                        value: <+stage.variables.cdExecutionId>  # Add this mapping
+                        value: <+stage.variables.cdExecutionId>
                     outputVariables: []
                   timeout: 10m
                   when:
