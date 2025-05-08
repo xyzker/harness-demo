@@ -32,8 +32,8 @@ pipeline:
                           command: |-
                             set -e
                             echo "hello"
-                            #echo "hello" > /shared/hello.txt
-                            #cat /shared/hello.txt
+                            echo "hello" > /shared/hello.txt
+                            cat /shared/hello.txt
                           shell: Sh
                           infrastructure:
                             type: KubernetesDirect
@@ -42,8 +42,8 @@ pipeline:
                               namespace: harness-delegate-ng
                               resources:
                                 limits:
-                                  cpu: "0.5"
-                                  memory: 500Mi
+                                  cpu: "1"
+                                  memory: 1G
                               annotations: {}
                               labels: {}
                               containerSecurityContext:
@@ -80,8 +80,8 @@ pipeline:
                               namespace: harness-delegate-ng
                               resources:
                                 limits:
-                                  cpu: "0.5"
-                                  memory: 500Mi
+                                  cpu: "1"
+                                  memory: 1G
                               annotations: {}
                               labels: {}
                               containerSecurityContext:
