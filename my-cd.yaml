@@ -1,0 +1,43 @@
+pipeline:
+  name: cd pipeline
+  identifier: cd_pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: contain run
+        identifier: contain_run
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          caching:
+            enabled: true
+            override: true
+            paths: []
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: mywindows
+              namespace: harness-delegate-ng
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          buildIntelligence:
+            enabled: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: alpine:3.21.3
+                    shell: Sh
+                    command: |-
+                      set -e
+                      mkdir -p /harness/.docker
+                      echo "hello" > /harness/.docker/hello.txt
+                      cat /harness/.docker/hello.txt
