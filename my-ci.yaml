@@ -51,9 +51,6 @@ pipeline:
                                   drop: []
                                   add: []
                               nodeSelector: {}
-                              volumeMounts:
-                                - name: shared-vol
-                                  mountPath: /shared
                           reports:
                             type: JUnit
                             spec:
