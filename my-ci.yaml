@@ -30,8 +30,47 @@ pipeline:
                           connectorRef: account.harnessImage
                           image: alpine:3.21.3
                           command: |
+                            set -e
                             mkdir -p /shared
                             echo "hello" > /shared/hello.txt
+                            cat /shared/hello.txt
+                          shell: Sh
+                          infrastructure:
+                            type: KubernetesDirect
+                            spec:
+                              connectorRef: mywindows
+                              namespace: harness-delegate-ng
+                              resources:
+                                limits:
+                                  cpu: "0.5"
+                                  memory: 500Mi
+                              annotations: {}
+                              labels: {}
+                              containerSecurityContext:
+                                capabilities:
+                                  drop: []
+                                  add: []
+                              nodeSelector: {}
+                              volumeMounts:
+                                - name: shared-vol
+                                  mountPath: /shared
+                          reports:
+                            type: JUnit
+                            spec:
+                              paths: []
+                          outputVariables: []
+                          envVariables: {}
+                        timeout: 1h
+                    - step:
+                        type: Container
+                        name: Container_2
+                        identifier: Container_2
+                        spec:
+                          connectorRef: account.harnessImage
+                          image: alpine:3.21
+                          command: |-
+                            set -e
+                            cat /shared/hello.txt
                           shell: Sh
                           infrastructure:
                             type: KubernetesDirect
@@ -116,4 +155,5 @@ pipeline:
                   timeout: 10m
                   when:
                     stageStatus: Success
+                    condition: "false"
         tags: {}
