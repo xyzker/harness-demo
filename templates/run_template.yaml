@@ -46,7 +46,7 @@ template:
                 shell: Sh
                 command: cat /harness/.docker/hello.txt
     when:
-      pipelineStatus: Success
+      pipelineStatus: All
       condition: <+input>
   identifier: run_template
   versionLabel: v1
