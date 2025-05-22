@@ -40,3 +40,7 @@ pipeline:
           templateRef: run_template
           versionLabel: v1
           gitBranch: main
+          templateInputs:
+            type: CI
+            when:
+              condition: <+input>
