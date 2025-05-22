@@ -32,13 +32,13 @@ pipeline:
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
-                  failureStrategies:
-                    - onFailure:
-                        errors:
-                          - AllErrors
-                        action:
-                          type: Ignore
         tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: Ignore
     - stage:
         name: hello world
         identifier: hello_world
