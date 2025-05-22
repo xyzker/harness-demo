@@ -8,7 +8,7 @@ template:
     spec:
       cloneCodebase: false
       caching:
-        enabled: true
+        enabled: false
         override: true
         paths: []
       infrastructure:
@@ -20,7 +20,7 @@ template:
           nodeSelector: {}
           os: Linux
       buildIntelligence:
-        enabled: true
+        enabled: false
       execution:
         steps:
           - step:
