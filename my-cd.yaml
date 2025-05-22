@@ -48,5 +48,4 @@ pipeline:
           templateInputs:
             type: CI
             when:
-              pipelineStatus: Success
               condition: "true"
