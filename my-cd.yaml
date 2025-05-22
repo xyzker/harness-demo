@@ -39,11 +39,6 @@ pipeline:
                         action:
                           type: Ignore
         tags: {}
-        failureStrategies:
-          - onFailure:
-              errors: []
-              action:
-                type: Ignore
     - stage:
         name: hello world
         identifier: hello_world
