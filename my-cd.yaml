@@ -39,13 +39,13 @@ pipeline:
               action:
                 type: Ignore
     - stage:
-        name: contain run
-        identifier: contain_run
+        name: hello world
+        identifier: hello_world
+        tags: {}
         template:
-          templateRef: run_template
+          templateRef: hello_world
           versionLabel: v1
-          gitBranch: main
           templateInputs:
-            type: CI
+            type: Custom
             when:
-              condition: "true"
+              condition: <+input>
