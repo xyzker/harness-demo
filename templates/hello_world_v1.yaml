@@ -23,7 +23,7 @@ template:
                 outputVariables: []
               timeout: 10m
     when:
-      pipelineStatus: Success
+      pipelineStatus: All
       condition: <+input>
   identifier: hello_world
   versionLabel: v1
