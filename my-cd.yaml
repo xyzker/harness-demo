@@ -6,84 +6,37 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: contain run
-        identifier: contain_run
+        name: first_stage
+        identifier: first_stage
         description: ""
-        type: CI
+        type: Custom
         spec:
-          cloneCodebase: false
-          caching:
-            enabled: true
-            override: true
-            paths: []
-          infrastructure:
-            type: KubernetesDirect
-            spec:
-              connectorRef: mywindows
-              namespace: harness-delegate-ng
-              automountServiceAccountToken: true
-              nodeSelector: {}
-              os: Linux
-          buildIntelligence:
-            enabled: true
-          execution:
-            steps:
-              - step:
-                  type: Run
-                  name: Run_1
-                  identifier: Run_1
-                  spec:
-                    connectorRef: account.harnessImage
-                    image: alpine:3.21.3
-                    shell: Sh
-                    command: |-
-                      set -e
-                      mkdir -p /harness/.docker
-                      echo "hello" > /harness/.docker/hello.txt
-                      cat /harness/.docker/hello.txt
-              - step:
-                  type: Run
-                  name: Run_2
-                  identifier: Run_2
-                  spec:
-                    connectorRef: account.harnessImage
-                    image: alpine:3.21
-                    shell: Sh
-                    command: cat /harness/.docker/hello.txt
-    - stage:
-        name: helm deploy
-        identifier: helm_deploy
-        description: ""
-        type: Deployment
-        spec:
-          deploymentType: NativeHelm
-          service:
-            serviceRef: myservice
           environment:
             environmentRef: dev
             deployToAll: false
             infrastructureDefinitions:
-              - identifier: myinfra
+              - identifier: mykubernetes
           execution:
             steps:
               - step:
-                  name: Helm Deployment
-                  identifier: helmDeployment
-                  type: HelmDeploy
-                  timeout: 10m
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
                   spec:
-                    skipDryRun: false
-            rollbackSteps:
-              - step:
-                  name: Helm Rollback
-                  identifier: helmRollback
-                  type: HelmRollback
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: exit 1
+                    environmentVariables: []
+                    outputVariables: []
                   timeout: 10m
-                  spec: {}
         tags: {}
-        failureStrategies:
-          - onFailure:
-              errors:
-                - AllErrors
-              action:
-                type: StageRollback
+    - stage:
+        name: contain run
+        identifier: contain_run
+        template:
+          templateRef: run_template
+          versionLabel: v1
+          gitBranch: main
