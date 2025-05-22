@@ -48,4 +48,4 @@ pipeline:
           templateInputs:
             type: Custom
             when:
-              condition: <+input>
+              condition: "true"
