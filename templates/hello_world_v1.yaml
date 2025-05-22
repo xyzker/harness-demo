@@ -22,5 +22,8 @@ template:
                 environmentVariables: []
                 outputVariables: []
               timeout: 10m
+    when:
+      pipelineStatus: Success
+      condition: "true"
   identifier: hello_world
   versionLabel: v1
