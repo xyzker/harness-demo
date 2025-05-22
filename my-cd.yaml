@@ -37,7 +37,7 @@ pipeline:
           - onFailure:
               errors: []
               action:
-                type: Ignore
+                type: MarkAsFailure
     - stage:
         name: hello world
         identifier: hello_world
