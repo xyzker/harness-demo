@@ -1,0 +1,26 @@
+template:
+  name: hello world
+  type: Stage
+  projectIdentifier: default_project
+  orgIdentifier: default
+  spec:
+    type: Custom
+    spec:
+      execution:
+        steps:
+          - step:
+              type: ShellScript
+              name: hello world
+              identifier: hello_world
+              spec:
+                shell: Bash
+                executionTarget: {}
+                source:
+                  type: Inline
+                  spec:
+                    script: echo "hello world"
+                environmentVariables: []
+                outputVariables: []
+              timeout: 10m
+  identifier: hello_world
+  versionLabel: v1
