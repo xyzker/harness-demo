@@ -33,6 +33,11 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+        failureStrategies:
+          - onFailure:
+              errors: []
+              action:
+                type: Ignore
     - stage:
         name: contain run
         identifier: contain_run
