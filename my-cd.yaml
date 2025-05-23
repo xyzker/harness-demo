@@ -6,7 +6,7 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: first_stage
+        name: fail stage
         identifier: first_stage
         description: ""
         type: Custom
@@ -19,19 +19,12 @@ pipeline:
           execution:
             steps:
               - step:
-                  type: ShellScript
-                  name: ShellScript_1
+                  name: fail stage
                   identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    executionTarget: {}
-                    source:
-                      type: Inline
-                      spec:
-                        script: exit 1
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
+                  template:
+                    templateRef: fail_stage
+                    versionLabel: v1
+                    gitBranch: main
         tags: {}
         failureStrategies:
           - onFailure:
