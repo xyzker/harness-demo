@@ -6,33 +6,6 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: fail stage
-        identifier: first_stage
-        description: ""
-        type: Custom
-        spec:
-          environment:
-            environmentRef: dev
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: mykubernetes
-          execution:
-            steps:
-              - step:
-                  name: fail stage
-                  identifier: ShellScript_1
-                  template:
-                    templateRef: fail_stage
-                    versionLabel: v1
-                    gitBranch: main
-        tags: {}
-        failureStrategies:
-          - onFailure:
-              errors:
-                - AllErrors
-              action:
-                type: Ignore
-    - stage:
         name: hello world
         identifier: hello_world
         tags: {}
