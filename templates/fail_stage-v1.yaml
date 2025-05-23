@@ -1,0 +1,29 @@
+template:
+  name: fail stage
+  identifier: fail_stage
+  versionLabel: v1
+  type: Stage
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: Custom
+    spec:
+      execution:
+        steps:
+          - step:
+              type: ShellScript
+              name: fail step
+              identifier: fail_step
+              spec:
+                shell: Bash
+                executionTarget: {}
+                source:
+                  type: Inline
+                  spec:
+                    script: exit 1
+                environmentVariables: []
+                outputVariables: []
+              timeout: 10m
+    when:
+      pipelineStatus: Success
