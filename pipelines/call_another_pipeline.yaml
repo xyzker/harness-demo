@@ -1,0 +1,22 @@
+pipeline:
+  name: call another pipeline
+  identifier: call_another_pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: call pipeline
+        identifier: call_pipeline
+        description: ""
+        type: Pipeline
+        spec:
+          org: default
+          pipeline: file_share
+          project: default_project
+          inputs:
+            identifier: file_share
+            variables:
+              - name: text
+                type: String
+                value: <+input>
