@@ -31,7 +31,7 @@ pipeline:
                         script: |
                           set -ex
                           mkdir -p /tmp
-                          echo "hello" > /tmp/hello.txt
+                          echo "<+pipeline.variables.text>" > /tmp/hello.txt
                           echo "file /tmp/hello.txt content:"
                           cat /tmp/hello.txt
                     environmentVariables: []
@@ -69,3 +69,9 @@ pipeline:
                     outputVariables: []
                   timeout: 10m
         tags: {}
+  variables:
+    - name: text
+      type: String
+      description: ""
+      required: true
+      value: <+input>
