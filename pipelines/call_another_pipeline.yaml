@@ -32,4 +32,4 @@ pipeline:
       type: String
       description: ""
       required: false
-      value: ""
+      value: <+input>
