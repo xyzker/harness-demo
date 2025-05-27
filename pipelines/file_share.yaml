@@ -31,6 +31,8 @@ pipeline:
                         script: |
                           mkdir -p /tmp
                           echo "hello" > /tmp/hello.txt
+                          echo "file /tmp/hello.txt content:"
+                          cat /tmp/hello.txt
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
@@ -58,7 +60,9 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: echo /tmp/hello.txt
+                        script: |-
+                          echo "file /tmp/hello.txt content:"
+                          cat /tmp/hello.txt
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
