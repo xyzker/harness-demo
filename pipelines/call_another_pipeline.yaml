@@ -19,3 +19,9 @@ pipeline:
               - name: text
                 type: String
                 value: <+input>
+  variables:
+    - name: text
+      type: String
+      description: ""
+      required: true
+      value: <+input>
