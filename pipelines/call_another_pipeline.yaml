@@ -14,8 +14,7 @@ pipeline:
           org: default
           pipeline: file_share
           project: default_project
-          triggerType: |
-            <+pipeline.variables.async> == "true" ? "Async" : "Sync"
+          triggerType: Async
           inputs:
             identifier: file_share
             variables:
