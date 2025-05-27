@@ -15,8 +15,7 @@ pipeline:
           pipeline: file_share
           project: default_project
           inputs:
-            identifier: file_share
-            variables:
+            pipelineVariables:
               - name: text
                 type: String
                 value: <+input>
