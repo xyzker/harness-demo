@@ -15,11 +15,10 @@ pipeline:
           pipeline: file_share
           project: default_project
           inputs:
-            identifier: file_share
             variables:
               - name: text
                 type: String
-                value: <+input>
+                value: <+pipeline.variables.text>
   variables:
     - name: text
       type: String
