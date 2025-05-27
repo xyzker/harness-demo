@@ -22,6 +22,34 @@ pipeline:
               - name: text
                 type: String
                 value: <+pipeline.variables.text>
+    - stage:
+        name: sleep
+        identifier: sleep
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: sleep 600
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
   variables:
     - name: text
       type: String
