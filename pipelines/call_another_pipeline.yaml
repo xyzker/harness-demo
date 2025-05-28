@@ -28,12 +28,14 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: |-
+                        script: |
                           JSON_INPUT='<+pipeline.variables.jsonInput>'
 
                           TOTAL=$(echo "$JSON_INPUT" | jq 'length')
+                          echo "TOTAL: $TOTAL"
 
-                          echo
+                          MATRIX_DATA=$(echo "$JSON_INPUT" | jq -c ".[0:TOTAL] | to_entries | map({index: .key, data: .value})")
+                          echo "MATRIX_DATA: $MATRIX_DATA"
                     environmentVariables: []
                     outputVariables:
                       - name: nextIndex
