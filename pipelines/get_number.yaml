@@ -73,7 +73,7 @@ pipeline:
         tags: {}
         when:
           pipelineStatus: Success
-          condition: <+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM> > 3
+          condition: <+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM> > 100
   variables:
     - name: num
       type: String
