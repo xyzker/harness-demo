@@ -67,7 +67,7 @@ pipeline:
                     environmentVariables:
                       - name: NUM
                         type: Number
-                        value: <+parseInt(pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM)>
+                        value: <+toInt(pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM)>
                     outputVariables: []
                   timeout: 10m
         tags: {}
