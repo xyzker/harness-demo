@@ -77,7 +77,7 @@ pipeline:
         tags: {}
         when:
           pipelineStatus: Success
-          condition: <+Integer.parseInt(<+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM>)> > 100
+          condition: <+Integer.parseInt(pipeline.variables.num)> > 100
   variables:
     - name: num
       type: String
