@@ -29,8 +29,11 @@ pipeline:
                       type: Inline
                       spec:
                         script: |-
-                          currentIndex=<+pipeline.variables.currentIndex>
-                          nextIndex=$((currentIndex+1))
+                          JSON_INPUT='<+pipeline.variables.jsonInput>'
+
+                          TOTAL=$(echo "$JSON_INPUT" | jq 'length')
+
+                          echo
                     environmentVariables: []
                     outputVariables:
                       - name: nextIndex
