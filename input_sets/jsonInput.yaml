@@ -1,0 +1,11 @@
+inputSet:
+  pipeline:
+    identifier: call_another_pipeline
+    variables:
+      - name: jsonInput
+        type: String
+        value: "[{\"text\":\"哈哈\"},{\"text\":\"22\"}]"
+  name: jsonInput
+  identifier: jsonInput
+  orgIdentifier: default
+  projectIdentifier: default_project
