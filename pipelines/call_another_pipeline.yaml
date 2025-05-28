@@ -6,23 +6,8 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: call pipeline
-        identifier: call_pipeline
-        description: ""
-        type: Pipeline
-        spec:
-          org: default
-          pipeline: file_share
-          project: default_project
-          inputs:
-            identifier: file_share
-            variables:
-              - name: text
-                type: String
-                value: <+pipeline.variables.text>
-    - stage:
-        name: sleep
-        identifier: sleep
+        name: process entry
+        identifier: process_entry
         description: ""
         type: Custom
         spec:
@@ -43,13 +28,58 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: sleep 600
+                        script: |-
+                          currentIndex=<+pipeline.variables.currentIndex>
+                          nextIndex=$((currentIndex+1))
+                    environmentVariables: []
+                    outputVariables:
+                      - name: nextIndex
+                        type: String
+                        value: nextIndex
+                  timeout: 10m
+        tags: {}
+    - stage:
+        name: call pipeline
+        identifier: call_pipeline
+        description: ""
+        type: Pipeline
+        spec:
+          org: default
+          pipeline: file_share
+          project: default_project
+          inputs:
+            identifier: file_share
+            variables:
+              - name: text
+                type: String
+                value: <+pipeline.variables.text>
+        when:
+          pipelineStatus: Success
+    - stage:
+        name: summary
+        identifier: summary
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "<+pip"
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m
         tags: {}
   variables:
-    - name: text
+    - name: jsonInput
       type: String
       description: ""
       required: true
