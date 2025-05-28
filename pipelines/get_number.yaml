@@ -67,13 +67,16 @@ pipeline:
                     environmentVariables:
                       - name: NUM
                         type: Number
-                        value: <+toInt(pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM)>
+                        value: <+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM>
                     outputVariables: []
                   timeout: 10m
         tags: {}
+        when:
+          pipelineStatus: Success
+          condition: <+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM> > 3
   variables:
     - name: num
-      type: Number
+      type: String
       description: ""
       required: true
       value: <+input>
