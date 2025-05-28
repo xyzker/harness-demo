@@ -14,7 +14,6 @@ pipeline:
           org: default
           pipeline: file_share
           project: default_project
-          triggerType: Async
           inputs:
             identifier: file_share
             variables:
@@ -54,9 +53,4 @@ pipeline:
       type: String
       description: ""
       required: true
-      value: <+input>
-    - name: async
-      type: String
-      description: ""
-      required: false
       value: <+input>
