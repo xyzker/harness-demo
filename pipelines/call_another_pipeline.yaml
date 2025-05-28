@@ -38,9 +38,12 @@ pipeline:
                           echo "MATRIX_DATA: $MATRIX_DATA"
                     environmentVariables: []
                     outputVariables:
-                      - name: nextIndex
+                      - name: TOTAL
                         type: String
-                        value: nextIndex
+                        value: TOTAL
+                      - name: MATRIX_DATA
+                        type: String
+                        value: MATRIX_DATA
                   timeout: 10m
         tags: {}
     - stage:
