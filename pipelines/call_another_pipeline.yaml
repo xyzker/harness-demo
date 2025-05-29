@@ -79,25 +79,6 @@ pipeline:
                         value: MATRIX_DATA
                   timeout: 10m
         tags: {}
-    - stage:
-        name: call pipeline
-        identifier: call_pipeline
-        description: ""
-        type: Pipeline
-        strategy:
-          repeat:
-            items: <+pipeline.stages.process_entry.spec.execution.steps.ShellScript_1.output.outputVariables.MATRIX_DATA>
-            maxConcurrency: 1
-        spec:
-          org: default
-          pipeline: file_share
-          project: default_project
-          inputs:
-            identifier: file_share
-            variables:
-              - name: text
-                type: String
-                value: <+pipeline.variables.text>
   variables:
     - name: jsonInput
       type: String
