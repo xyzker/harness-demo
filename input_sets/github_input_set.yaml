@@ -1,7 +1,6 @@
 inputSet:
-  name: file share input set
-  tags: {}
-  identifier: file_share_input_set
+  name: github input set
+  identifier: github_input_set
   orgIdentifier: default
   projectIdentifier: default_project
   pipeline:
@@ -9,4 +8,4 @@ inputSet:
     variables:
       - name: text
         type: String
-        value: <+trigger.payload.text>
+        value: <+trigger.gitUser>
