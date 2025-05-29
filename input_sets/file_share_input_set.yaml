@@ -1,11 +1,12 @@
 inputSet:
+  name: file share input set
+  tags: {}
+  identifier: file_share_input_set
+  orgIdentifier: default
+  projectIdentifier: default_project
   pipeline:
     identifier: file_share
     variables:
       - name: text
         type: String
-        value: 打到
-  name: file share input set
-  identifier: file_share_input_set
-  orgIdentifier: default
-  projectIdentifier: default_project
+        value: <+trigger.payload.text>
