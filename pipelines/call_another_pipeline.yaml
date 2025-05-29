@@ -111,7 +111,7 @@ pipeline:
                              fi
                            
                              if [[ $i != $((TOTAL-1)) ]]; then
-                               interval=10
+                               interval=30
                                echo "Sleeping for $interval seconds before next trigger"
                                sleep $interval
                              fi
