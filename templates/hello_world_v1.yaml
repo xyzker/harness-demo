@@ -19,7 +19,7 @@ template:
                   type: Inline
                   spec:
                     script: |-
-                      echo "hello world" 
+                      echo "hello world"
                       echo "Previous stage status: <+pipeline.stages.first_stage.status>"
                 environmentVariables: []
                 outputVariables: []
