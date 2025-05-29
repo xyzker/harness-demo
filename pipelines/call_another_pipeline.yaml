@@ -95,7 +95,7 @@ pipeline:
                            
                              # Make API call
                              trigger_response=$(curl -s -X POST \
-                               'https://app.harness.io/gateway/pipeline/api/webhook/custom/<+secrets.getValue("account.harnessnextgenapikey")>/v3?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&pipelineIdentifier=file_share&triggerIdentifier=file_share_trigger' \
+                               'https://app.harness.io/gateway/pipeline/api/webhook/custom/yxrA46NCTkukoENyiTO6KA/v3?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&pipelineIdentifier=file_share&triggerIdentifier=file_share_trigger' \
                                -H 'content-type: application/json' \
                                -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>' \
                                -d "$api_payload")
