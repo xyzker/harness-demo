@@ -1,0 +1,22 @@
+pipeline:
+  name: upload csv
+  identifier: upload_csv
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: upload csv
+        identifier: upload_csv
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: FilesUpload
+                  name: upload csv
+                  identifier: upload_csv
+                  spec: {}
+                  timeout: 30m
+        tags: {}
