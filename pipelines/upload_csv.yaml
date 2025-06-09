@@ -20,3 +20,29 @@ pipeline:
                   spec: {}
                   timeout: 30m
         tags: {}
+    - stage:
+        name: process csv file
+        identifier: process_csv_file
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: process csv file
+                  identifier: process_csv_file
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo $(fileName)
+                    environmentVariables:
+                      - name: fileName
+                        type: String
+                        value: <+pipeline.stages.upload_csv.spec.execution.steps.upload_csv.output.outputVariables.fileNames>
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
