@@ -39,9 +39,10 @@ pipeline:
                       type: Inline
                       spec:
                         script: |
-                          FILE_PATH="<+pipeline.stages.upload_csv.spec.execution.steps.upload_csv.output.fileNames>"
-                          echo "FILE_PATH=${FILE_PATH}"
-                          curl -o data.csv --location "https://app.harness.io/gateway/pipeline/api/input-file/download-file?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&filePath=$FILE_PATH" \
+                          fileNames="<+pipeline.stages.upload_csv.spec.execution.steps.upload_csv.output.fileNames>"
+                          echo "fileNames=${fileNames}"
+                          filePath="${fileNames[0]}"
+                          curl -o data.csv --location "https://app.harness.io/gateway/pipeline/api/input-file/download-file?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&filePath=$filePath" \
                           --header 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>'
                           echo data.csv
                     environmentVariables:
