@@ -38,7 +38,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: echo fileName
+                        script: echo "$fileName"
                     environmentVariables:
                       - name: fileName
                         type: String
