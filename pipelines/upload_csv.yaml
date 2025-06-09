@@ -38,7 +38,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: echo "$fileName"
+                        script: echo "<+pipeline.stages.upload_csv.spec.execution.steps.upload_csv.output.fileNames>"
                     environmentVariables:
                       - name: fileName
                         type: String
