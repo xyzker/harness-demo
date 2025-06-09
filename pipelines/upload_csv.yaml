@@ -57,6 +57,7 @@ pipeline:
                           --header 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>'
 
                           cat data.csv
+                          echo
 
                           JSON_OUTPUT=$(cat data.csv | awk -F',' '
                           BEGIN { printf "[" }
