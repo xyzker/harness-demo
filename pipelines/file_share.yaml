@@ -74,4 +74,4 @@ pipeline:
       type: String
       description: ""
       required: true
-      value: <+input>
+      value: 可可
