@@ -1,5 +1,5 @@
 pipeline:
-  name: file share test
+  name: file share
   identifier: file_share
   projectIdentifier: default_project
   orgIdentifier: default
