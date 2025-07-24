@@ -44,18 +44,21 @@ pipeline:
                           #!/bin/bash
                           set -ex
 
-                          echo "Retrieving input details for execution ID: ${cdExecutionId}"
+                          mkdir /harness/output
+                          echo "hello" > /harness/output/hello.txt
 
-                          API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}/inputsetV2?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&resolveExpressions=false&resolveExpressionsType=RESOLVE_ALL_EXPRESSIONS" \
-                          -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>')
+                          # echo "Retrieving input details for execution ID: ${cdExecutionId}"
 
-                          echo "API Response received: $API_RESPONSE"
+                          # API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}/inputsetV2?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&resolveExpressions=false&resolveExpressionsType=RESOLVE_ALL_EXPRESSIONS" \
+                          # -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>')
+
+                          # echo "API Response received: $API_RESPONSE"
 
                           # Second API call to get execution details
-                          EXECUTION_API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project" \
-                          -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>')
+                          # EXECUTION_API_RESPONSE=$(curl -s -X GET "https://app.harness.io/pipeline/api/pipelines/execution/${cdExecutionId}?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project" \
+                          # -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>')
 
-                          echo "Execution API Response received: $EXECUTION_API_RESPONSE"
+                          # echo "Execution API Response received: $EXECUTION_API_RESPONSE"
                     environmentVariables:
                       - name: cdExecutionId
                         type: String
@@ -64,5 +67,4 @@ pipeline:
                   timeout: 10m
                   when:
                     stageStatus: Success
-                    condition: "false"
         tags: {}
