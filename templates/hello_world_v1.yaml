@@ -20,7 +20,7 @@ template:
                   spec:
                     script: |-
                       echo "hello world"
-                      echo "Previous stage status:  <+pipeline.stages.first_stage.status>"
+                      echo "Previous stage status: <+pipeline.stages.first_stage.status>"
                 environmentVariables: []
                 outputVariables: []
               timeout: 10m
