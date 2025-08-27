@@ -31,7 +31,7 @@ pipeline:
                         script: |
                           set -ex
                           mkdir -p /tmp
-                          echo ""<+pipeline.variables.text>""
+                          echo "[pipeline.variables.text]"
                           echo "<+pipeline.variables.text>" > /tmp/hello.txt
                           echo "file /tmp/hello.txt content:"
                           cat /tmp/hello.txt
