@@ -1,1 +1,3 @@
 harness-delegate.yml
+.idea/
+bin/drone-docker-runner-windows-amd64.exe
