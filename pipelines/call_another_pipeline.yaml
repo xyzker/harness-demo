@@ -1,0 +1,131 @@
+pipeline:
+  name: call another pipeline
+  identifier: call_another_pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: call pipeline
+        identifier: process_entry
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |
+                          set -ex
+
+                          # Check if jq is installed, if not install it
+                          if ! command -v jq &> /dev/null; then
+                              echo "jq not found. Installing jq..."
+                              
+                              # Detect OS and install accordingly
+                              if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+                                  # For Ubuntu/Debian
+                                  if command -v apt-get &> /dev/null; then
+                                      apt-get update && apt-get install -y jq
+                                  # For RHEL/CentOS/Amazon Linux
+                                  elif command -v yum &> /dev/null; then
+                                      yum install -y jq
+                                  # For newer RHEL/CentOS/Fedora
+                                  elif command -v dnf &> /dev/null; then
+                                      dnf install -y jq
+                                  # For Alpine Linux
+                                  elif command -v apk &> /dev/null; then
+                                      apk add --no-cache jq
+                                  else
+                                      echo "Cannot determine package manager. Attempting to download jq binary..."
+                                      curl -L -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/latest/download/jq-linux64
+                                      chmod +x /usr/local/bin/jq
+                                  fi
+                              elif [[ "$OSTYPE" == "darwin"* ]]; then
+                                  # For macOS
+                                  if command -v brew &> /dev/null; then
+                                      brew install jq
+                                  else
+                                      echo "Homebrew not found. Installing jq binary..."
+                                      curl -L -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/latest/download/jq-osx-amd64
+                                      chmod +x /usr/local/bin/jq
+                                  fi
+                              else
+                                  echo "Unsupported OS type: $OSTYPE"
+                                  exit 1
+                              fi
+                              
+                              echo "jq installation completed."
+                          else
+                              echo "jq is already installed."
+                          fi
+
+                          # Verify jq installation
+                          jq --version
+
+                          JSON_INPUT='<+pipeline.variables.jsonInput>'
+
+                          TOTAL=$(echo "$JSON_INPUT" | jq 'length')
+                          echo "TOTAL: $TOTAL"
+
+                           for i in $(seq 0 $((TOTAL-1))); do
+                             # Extract entry data
+                             entry=$(echo "$JSON_INPUT" | jq -c ".[$i]")
+                             text=$(echo "$entry" | jq -r '.text // empty')
+                           
+                             echo "Processing entry $((i+1))/$TOTAL: text=$text"
+                           
+                             # Prepare API payload
+                             api_payload='{
+                               "text":"'$text'"
+                             }'
+                           
+                             # Make API call
+                             trigger_response=$(curl -s -X POST \
+                               'https://app.harness.io/gateway/pipeline/api/webhook/custom/yxrA46NCTkukoENyiTO6KA/v3?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&orgIdentifier=default&projectIdentifier=default_project&pipelineIdentifier=file_share&triggerIdentifier=file_share_trigger' \
+                               -H 'content-type: application/json' \
+                               -H 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>' \
+                               -d "$api_payload")
+                           
+                             echo "Response: $trigger_response"
+                             # Check response
+                             if echo "$trigger_response" | jq -e '.data.apiUrl' > /dev/null 2>&1; then
+                               api_url=$(echo "$trigger_response" | jq -r '.data.apiUrl')
+                               echo "✓ Successfully triggered for service $service - API URL: $api_url"
+                             else
+                               echo "✗ Failed to trigger for service $service"
+                               echo "Response: $trigger_response"
+                             fi
+                           
+                             if [[ $i != $((TOTAL-1)) ]]; then
+                               interval=30
+                               echo "Sleeping for $interval seconds before next trigger"
+                               sleep $interval
+                             fi
+                           done
+                    environmentVariables: []
+                    outputVariables:
+                      - name: TOTAL
+                        type: String
+                        value: TOTAL
+                  timeout: 10m
+        tags: {}
+  variables:
+    - name: jsonInput
+      type: String
+      description: ""
+      required: true
+      value: <+input>

@@ -1,0 +1,11 @@
+inputSet:
+  name: github input set
+  identifier: github_input_set
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: file_share
+    variables:
+      - name: text
+        type: String
+        value: <+trigger.gitUser>

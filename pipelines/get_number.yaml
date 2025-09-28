@@ -1,0 +1,86 @@
+pipeline:
+  name: get number
+  identifier: get_number
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: set number
+        identifier: set_number
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          NUM="<+pipeline.variables.num>"
+                          if [ $NUM -gt 3 ]; then
+                              echo "Number is greater than 3"
+                          fi
+                    environmentVariables: []
+                    outputVariables:
+                      - name: NUM
+                        type: String
+                        value: NUM
+                  timeout: 10m
+        tags: {}
+    - stage:
+        name: get number
+        identifier: get_number
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: get number
+                  identifier: get_number
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "NUM=$NUM"
+                          if [ $NUM -gt 3 ]; then
+                              echo "Number is greater than 3"
+                          fi
+                    environmentVariables:
+                      - name: NUM
+                        type: Number
+                        value: <+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM>
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+        when:
+          pipelineStatus: Success
+          condition: <+pipeline.stages.set_number.spec.execution.steps.ShellScript_1.output.outputVariables.NUM> > "100”
+  variables:
+    - name: num
+      type: String
+      description: ""
+      required: true
+      value: <+input>

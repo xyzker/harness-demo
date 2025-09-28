@@ -1,0 +1,85 @@
+pipeline:
+  name: upload csv
+  identifier: upload_csv
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: upload csv
+        identifier: upload_csv
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: FilesUpload
+                  name: upload csv
+                  identifier: upload_csv
+                  spec: {}
+                  timeout: 30m
+        tags: {}
+    - stage:
+        name: process csv file
+        identifier: process_csv_file
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: process csv file
+                  identifier: process_csv_file
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |
+                          set -ex
+
+                          FILE_PATH_STR="<+pipeline.stages.upload_csv.spec.execution.steps.upload_csv.output.fileNames>"
+                          echo "FILE_PATH_STR=${FILE_PATH_STR}"
+                          # Remove brackets
+                          FILE_PATH_CLEAN="${FILE_PATH_STR#[}"  # Remove leading [
+                          FILE_PATH_CLEAN="${FILE_PATH_CLEAN%]}"  # Remove trailing ]
+
+                          # Split by comma into array
+                          IFS=',' read -ra FILE_PATHS <<< "$FILE_PATH_CLEAN"
+
+                          FILE_PATH="${FILE_PATHS[0]}"
+                          echo "FILE_PATH=${FILE_PATH}"
+
+                          curl -o data.csv --location "https://app.harness.io/gateway/pipeline/api/input-file/download-file?accountIdentifier=aj5y95k4SRCnw5xNUzyTzQ&filePath=$FILE_PATH" \
+                          --header 'x-api-key: <+secrets.getValue("account.harnessnextgenapikey")>'
+
+                          cat data.csv
+                          echo
+
+                          JSON_OUTPUT=$(cat data.csv | awk -F',' '
+                          BEGIN { printf "[" }
+                          NR==1 { 
+                              for(i=1; i<=NF; i++) header[i] = $i
+                              next 
+                          }
+                          {
+                              printf "%s{", (NR>2 ? "," : "")
+                              for(i=1; i<=NF; i++) {
+                                  printf "\"%s\":\"%s\"%s", header[i], $i, (i<NF ? "," : "")
+                              }
+                              printf "}"
+                          }
+                          END { printf "]" }
+                          ')
+
+                          echo "$JSON_OUTPUT"
+                    environmentVariables:
+                      - name: fileName
+                        type: String
+                        value: <+pipeline.stages.upload_csv.spec.execution.steps.upload_csv.output.outputVariables.fileNames>
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}

@@ -6,46 +6,13 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: first_stage
-        identifier: first_stage
-        description: ""
-        type: Custom
-        spec:
-          environment:
-            environmentRef: dev
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: mykubernetes
-          execution:
-            steps:
-              - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    executionTarget: {}
-                    source:
-                      type: Inline
-                      spec:
-                        script: exit 1
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
+        name: hello world
+        identifier: hello_world
         tags: {}
-        failureStrategies:
-          - onFailure:
-              errors: []
-              action:
-                type: Ignore
-    - stage:
-        name: contain run
-        identifier: contain_run
         template:
-          templateRef: run_template
+          templateRef: hello_world
           versionLabel: v1
-          gitBranch: main
           templateInputs:
-            type: CI
+            type: Custom
             when:
               condition: "true"

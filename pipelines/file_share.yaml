@@ -1,0 +1,77 @@
+pipeline:
+  name: file share
+  identifier: file_share
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: stage1
+        identifier: stage1
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |
+                          set -ex
+                          mkdir -p /tmp
+                          echo "[pipeline.variables.text]"
+                          echo "<+pipeline.variables.text>" > /tmp/hello.txt
+                          echo "file /tmp/hello.txt content:"
+                          cat /tmp/hello.txt
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
+    - stage:
+        name: stage2
+        identifier: stage2
+        description: ""
+        type: Custom
+        spec:
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: mykubernetes
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          set -ex
+                          echo "file /tmp/hello.txt content:"
+                          cat /tmp/hello.txt
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+  variables:
+    - name: text
+      type: String
+      description: ""
+      required: true
+      value: 可可
