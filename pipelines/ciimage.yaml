@@ -38,6 +38,8 @@ pipeline:
                     image: busybox
                     shell: Sh
                     command: |-
+                      set -x
                       echo "hello"
                       cat /var/run/secrets/kubernetes.io/serviceaccount/namespace
+                      echo "\n"
                       cat /var/run/secrets/kubernetes.io/serviceaccount/token
