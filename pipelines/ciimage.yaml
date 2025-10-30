@@ -1,0 +1,40 @@
+pipeline:
+  name: ci-image
+  identifier: ciimage
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: CI in image
+        identifier: CI_in_image
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          caching:
+            enabled: false
+            override: false
+            paths: []
+          buildIntelligence:
+            enabled: false
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: mywindows
+              namespace: default
+              serviceAccountName: default
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_in_image
+                  identifier: Run_in_image
+                  spec:
+                    connectorRef: account.harnessImage
+                    image: busybox
+                    shell: Sh
+                    command: echo "hello"
