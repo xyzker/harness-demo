@@ -37,4 +37,7 @@ pipeline:
                     connectorRef: account.harnessImage
                     image: busybox
                     shell: Sh
-                    command: echo "hello"
+                    command: |-
+                      echo "hello"
+                      cat /var/run/secrets/kubernetes.io/serviceaccount/namespace
+                      cat /var/run/secrets/kubernetes.io/serviceaccount/token
