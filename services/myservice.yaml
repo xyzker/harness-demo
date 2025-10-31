@@ -3,3 +3,23 @@ service:
   identifier: myservice
   orgIdentifier: default
   projectIdentifier: default_project
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: myservice
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: xyzker
+                  gitFetchType: Branch
+                  paths:
+                    - manifests/myservice.yaml
+                  repoName: harness-demo
+                  branch: main
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+              optionalValuesYaml: false
+    type: Kubernetes
